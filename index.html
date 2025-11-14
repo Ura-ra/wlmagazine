@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>My Magazine</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="mainViewCount"
+  style="
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(4px);
+    padding: 10px 14px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 9999;
+  ">
+  MAIN 조회수: ...
+</div>
+
+  <button id="topBtn" class="top-btn">
+  <img src="top.png" style="width:28px; height:28px; margin-bottom:4px;" />
+  <span style="font-weight:bold; font-size:15px;">TOP</span>
+</button>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="tab-buttons">
+      <button class="tab-btn active" id="workBtn">WORK</button>
+      <button class="tab-btn" id="loveBtn">LOVE</button>
+    </div>
+    <button class="burger-btn" id="burgerBtn" aria-label="메뉴 열기">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <!-- 메인 이미지 -->
+  <div class="main-img-wrap">
+    <img src="seasaw.png" alt="HOME" class="main-img"/>
+  </div>
+ 
+  <!-- 3x8 GRID -->
+  <div class="grid-box" id="gridBox"></div>
+
+  <!-- 햄버거 오버레이 및 메뉴 -->
+  <div class="menu-overlay" id="menuOverlay"></div>
+  <div class="slide-menu" id="slideMenu">
+    <button class="close-btn" id="menuCloseBtn" aria-label="메뉴 닫기">&times;</button>
+    <form class="menu-search" onsubmit="return false;">
+      <span class="search-icon">&#128269;</span>
+      <input type="text" placeholder="WORK, LOVE, 본문 검색…" id="menuSearch"/>
+    </form>
+    <div class="menu-links">
+      <a class="menu-link" href="#" id="menuWork">WORK</a>
+      <a class="menu-link" href="#" id="menuLove">LOVE</a>
+    </div>
+    <div class="menu-instagram">
+      <a href="https://www.instagram.com/wlmag/?igsh=ejBpN3FjNTd5d21z#" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Instagram_logo_2022.svg" alt="Instagram" />
+        Instagram
+      </a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    Instagram: @wlmag <br>
+    Contact: pgy3273@naver.com | goura00@naver.com <br>
+    -------------------------------------<br>
+    © 2025 WL MAG. All rights reserved.
+  </footer>
+
+  <!-- SCRIPT: 데이터, 탭, 메뉴, 검색 등 -->
+  <script>
+    // WORK, LOVE 키워드 배열
+const workKeywords = [
+  '박지현 약사', // work1
+  '박주민 뷰티 콘텐츠 마케터 페리페라', // work2
+  '김지현 싱어송라이터 음악감독 gogo90', // work3
+  '이예지 법률사무원 마루법무법인', // work4
+  '박유선 의류 무역 벤더', // work5
+  '허유정 교육 콘텐츠 기획자 메가스터디', // work6
+  '이의재 기획자 AE', // work7
+  '조은빈 PD 웹예능 요정식탁 정재형', // work8
+  '허다민 드라마 드라마 작가', // work9
+  // work10~24 필요시 추가
+];
+
+const loveKeywords = [
+  '박주희 강아지 탱수', // love1
+  '이승미 뮤지컬 박강현', // love2
+  '박하랑 드라마 웹드라마 지옥에서 온 판사 S라인', // love3
+  '김희연 고양이 홍시', // love4
+  '맹지호 읽고씀 소설 픽션 논픽션', // love5
+  '고명조 웹소설 소설', // love6
+  '김수민 야구 두산베어스', // love7
+  // love8~24 필요시 추가
+];
+
+// WORK 데이터 생성
+const workData = Array.from({ length: 24 }, (_, i) => ({
+  img: `work/work${i + 1}.png`,
+  link: `work${i + 1}.html`,
+  text: `WORK ${i + 1}`,
+  keyword: workKeywords[i] || `WORK ${i + 1}`
+}));
+
+// LOVE 데이터 생성
+const loveData = Array.from({ length: 24 }, (_, i) => ({
+  img: `love/love${i + 1}.png`,
+  link: `love${i + 1}.html`,
+  text: `LOVE ${i + 1}`,
+  keyword: loveKeywords[i] || `LOVE ${i + 1}`
+}));
+
+    // 상태
+    let currentTab = "WORK";
+    let searchText = "";
+
+    // DOM
+    const gridBox = document.getElementById('gridBox');
+    const workBtn = document.getElementById('workBtn');
+    const loveBtn = document.getElementById('loveBtn');
+    const burgerBtn = document.getElementById('burgerBtn');
+    const menuOverlay = document.getElementById('menuOverlay');
+    const slideMenu = document.getElementById('slideMenu');
+    const menuCloseBtn = document.getElementById('menuCloseBtn');
+    const menuWork = document.getElementById('menuWork');
+    const menuLove = document.getElementById('menuLove');
+    const menuSearch = document.getElementById('menuSearch');
+
+    function getCurrentData() {
+      return currentTab === "WORK" ? workData : loveData;
+    }
+
+    function renderGrid(data) {
+      gridBox.innerHTML = '';
+      data.forEach(item => {
+        const btn = document.createElement('a');
+        btn.className = 'square-btn';
+        btn.href = item.link;
+        btn.target = '_blank';
+        btn.rel = 'noopener noreferrer';
+        btn.innerHTML = `
+          <div class="img-wrap">
+            <img src="${item.img}" alt="">
+            <div class="overlay">
+              <span class="overlay-text">${item.text}</span>
+            </div>
+          </div>
+        `;
+        gridBox.appendChild(btn);
+      });
+    }
+
+    function doSearch(val) {
+      const filtered = getCurrentData().filter(item =>
+        (
+          (item.keyword || "") + " " + (item.text || "")
+        ).toLowerCase().includes((val||"").toLowerCase())
+      );
+      renderGrid(filtered);
+    }
+
+    // 탭 전환
+    workBtn.onclick = () => {
+      workBtn.classList.add('active');
+      loveBtn.classList.remove('active');
+      currentTab = "WORK";
+      doSearch(menuSearch.value);
+    }
+    loveBtn.onclick = () => {
+      loveBtn.classList.add('active');
+      workBtn.classList.remove('active');
+      currentTab = "LOVE";
+      doSearch(menuSearch.value);
+    }
+
+    // 햄버거 메뉴 오픈/닫기
+    burgerBtn.onclick = () => document.body.classList.add('menu-open');
+    menuOverlay.onclick = () => document.body.classList.remove('menu-open');
+    menuCloseBtn.onclick = () => document.body.classList.remove('menu-open');
+    // 메뉴에서 탭 전환
+    menuWork.onclick = e => { e.preventDefault(); document.body.classList.remove('menu-open'); workBtn.onclick(); };
+    menuLove.onclick = e => { e.preventDefault(); document.body.classList.remove('menu-open'); loveBtn.onclick(); };
+
+    // 검색 (메뉴 안 검색창 기준, 메뉴 닫아도 결과 유지)
+    menuSearch.oninput = (e) => {
+      doSearch(e.target.value);
+    }
+
+    // 최초 렌더
+    renderGrid(workData);
+
+    document.getElementById('topBtn').onclick = function() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+window.addEventListener('scroll', function() {
+  const btn = document.getElementById('topBtn');
+  if(window.scrollY > 200) {
+    btn.style.display = 'flex';
+  } else {
+    btn.style.display = 'none';
+  }
+});
+document.getElementById('topBtn').style.display = 'none';
+  </script>
+
+<script>
+  // 메인 페이지 조회수 KEY
+  let mainKey = "view_main";
+
+  // 기존 조회수 가져오기
+  let mainCount = (localStorage.getItem(mainKey) || 0) * 1;
+
+  // +1 증가
+  mainCount++;
+  localStorage.setItem(mainKey, mainCount);
+
+  // 화면에 출력
+  document.getElementById("mainViewCount").innerText = `MAIN 조회수: ${mainCount}회`;
+</script>
+
+</body>
+</html>
+
+

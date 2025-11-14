@@ -1,0 +1,476 @@
+/* Reset */
+body, html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  background: #fff;
+  color: #191919;
+  min-height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* HEADER (WORK / LOVE / 햄버거) */
+.header {
+  width: 100%;
+  max-width: 100vw;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  margin-top: 38px;
+  margin-bottom: 32px;
+}
+
+.tab-buttons {
+  display: flex;
+  gap: 54px;
+}
+
+.tab-btn {
+  font-weight: 700;
+  font-size: 1.8rem;
+  background: none;
+  border: none;
+  padding: 0 12px 10px 12px;
+  cursor: pointer;
+  color: #191919;
+  outline: none;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.tab-btn.active {
+  color: #191919;
+}
+
+.tab-btn.active::after {
+  content: '';
+  display: block;
+  height: 4px;
+  width: 120%;
+  background: #191919;
+  border-radius: 2px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -5px;
+}
+
+.burger-btn {
+  position: absolute;
+  right: 48px;
+  top: 2px;
+  background: none;
+  border: none;
+  font-size: 2.6rem;
+  cursor: pointer;
+  padding: 0;
+  z-index: 201;
+  color: #191919;
+  transition: color 0.2s;
+}
+.burger-btn span {
+  display: block;
+  width: 40px;
+  height: 4px;
+  margin: 7px 0;
+  background: #191919;
+  border-radius: 2px;
+}
+
+/* 홈(seasaw) 이미지 */
+.main-img-wrap {
+  margin-bottom: 48px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 0px;
+}
+
+.main-img {
+  width: 840px;
+  max-width: 90vw;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 48px;
+  object-fit: contain;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* --- GRID --- */
+.grid-box {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 36px 18px;
+  justify-items: center;
+  align-items: center;
+  margin: 0 auto 64px auto;
+  max-width: 1100px;
+  padding: 0 64px;
+}
+
+.square-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f7f7f7;
+  border: none;
+  border-radius: 0px;
+  width: 320px;
+  height: 320px;
+  min-width: 220px;
+  min-height: 220px;
+  max-width: 96vw;
+  max-height: 96vw;
+  overflow: hidden;
+  transition: box-shadow 0.18s, filter 0.16s;
+  box-shadow: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.square-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  background: #eee;
+  display: block;
+}
+
+.square-btn .overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(25,25,25,0.48);
+  color: #fff;
+  opacity: 0;
+  font-size: 2.2rem;
+  font-weight: 600;
+  transition: opacity 0.16s;
+}
+
+.square-btn:hover .overlay,
+.square-btn:focus .overlay {
+  opacity: 1;
+}
+
+/* --- 햄버거(슬라이드) 메뉴 --- */
+.menu-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(25,25,25,0.24);
+  z-index: 200;
+}
+body.menu-open .menu-overlay {
+  display: block;
+}
+
+.slide-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 380px;
+  max-width: 92vw;
+  background: #191919;
+  color: #fff;
+  z-index: 210;
+  transform: translateX(100%);
+  transition: transform 0.23s cubic-bezier(.87,-0.01,.42,.99);
+  display: flex;
+  flex-direction: column;
+  padding: 42px 32px 32px 32px;
+}
+body.menu-open .slide-menu {
+  transform: translateX(0%);
+}
+
+.close-btn {
+  position: absolute;
+  top: 22px;
+  right: 26px;
+  font-size: 2.3rem;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  z-index: 11;
+  padding: 0;
+}
+
+.menu-search {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: #222;
+  padding: 11px 15px;
+  border-radius: 10px;
+  margin-bottom: 26px;
+}
+
+.menu-search .search-icon {
+  font-size: 1.4rem;
+  color: #aaa;
+}
+
+.menu-search input {
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 1.14rem;
+  outline: none;
+  flex: 1;
+  padding: 0 4px;
+}
+
+.menu-links {
+  margin: 18px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.menu-link {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 8px 0;
+  border-radius: 7px;
+  transition: background 0.13s, color 0.16s;
+}
+
+.menu-link:active,
+.menu-link:focus {
+  background: #232323;
+}
+
+.menu-instagram {
+  margin-top: 32px;
+}
+.menu-instagram a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #232323;
+  color: #fff;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 7px 18px 7px 12px;
+  text-decoration: none;
+  transition: background 0.17s;
+}
+.menu-instagram img {
+  width: 30px;
+  height: 30px;
+}
+
+/* --- 반응형 --- */
+@media (max-width: 1200px) {
+  .grid-box {
+    max-width: 94vw;
+    gap: 24px 18px;
+  }
+  .square-btn {
+    width: 28vw;
+    height: 28vw;
+    min-width: 120px;
+    min-height: 120px;
+    max-width: 96vw;
+    max-height: 96vw;
+  }
+  .main-img {
+    width: 97vw;
+    max-width: 97vw;
+  }
+}
+
+@media (max-width: 700px) {
+  .header {
+    margin-top: 18px;
+    margin-bottom: 18px;
+  }
+  .tab-btn {
+    font-size: 1.44rem;
+    padding-bottom: 7px;
+  }
+  .burger-btn {
+    right: 18px;
+    font-size: 2rem;
+  }
+  .main-img {
+    width: 99vw;
+  }
+  .logo-img-wrap {
+    margin-top: 10px;
+    margin-bottom: 14px;
+  }
+  .grid-box {
+    grid-template-columns: 1fr;
+    gap: 18px 0px;
+    padding: 0 5vw;
+  }
+  .square-btn {
+    width: 90vw;
+    height: 90vw;
+    min-width: 88vw;
+    min-height: 88vw;
+  }
+  .slide-menu {
+    width: 92vw;
+    min-width: 0;
+    padding: 30px 10vw 26px 10vw;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: #f5f5f5;
+}
+::-webkit-scrollbar-thumb {
+  background: #c5c5c5;
+  border-radius: 4px;
+}
+
+.footer {
+  width: 100%;
+  padding: 36px 0 28px 0;
+  background: #191919;
+  color: #fff;
+  text-align: left;
+  font-size: 16px; 
+  font-family: 'Pretendard', 'Noto Sans KR', Arial, sans-serif;
+  letter-spacing: 0.01em;
+  position: relative;
+  bottom: 0;
+  padding: 32px 0 24px 40px;   /* 위, 오른쪽, 아래, 왼쪽 */
+  line-height: 1.8;     /* 줄간격 */
+}
+
+@media (max-width: 600px) {
+  .slide-menu {
+    width: 90vw;
+    min-width: unset;
+    max-width: 100vw;
+    padding: 24px 12px 0 12px;
+    font-size: 1rem;
+  }
+  .menu-search input {
+    font-size: 1rem;
+    padding: 8px 10px;
+  }
+  .menu-link,
+  .menu-instagram {
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+  }
+  .menu-instagram img {
+    width: 26px;
+    height: 26px;
+    margin-right: 6px;
+  }
+  .menu-search {
+    margin-bottom: 12px;
+  }
+  .close-btn {
+    top: 18px;
+    right: 16px;
+    font-size: 2rem;
+  }
+}
+
+.top-btn {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 1000;
+  background: #fff;
+  color: #111;
+  border: none;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  opacity: 0.7;
+  transition: opacity 0.2s, box-shadow 0.2s;
+}
+.top-btn:hover {
+  opacity: 1;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+
+---------인터뷰 상세페이지 디자인-------
+body {
+  background: #f9f9f9;
+  margin: 0;
+  font-family: 'Pretendard', 'sans-serif';
+}
+.interview-wrap {
+  max-width: 720px;
+  margin: 48px auto;
+  padding: 36px 24px 32px 24px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  font-size: 1.08rem;
+}
+.interview-wrap h2 {
+  font-size: 1.6rem;
+  margin-bottom: 32px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+.interview-wrap .q {
+  font-weight: bold;
+  margin-top: 1.5em;
+  margin-bottom: 0.3em;
+  color: #232323;
+  line-height: 1.5;
+  font-size: 1.12em;
+}
+.interview-wrap .a {
+  margin-bottom: 0.8em;
+  color: #444;
+  line-height: 1.8;
+  white-space: pre-line;
+}
+.interview-wrap .highlight {
+  color: #e4b600;
+  font-weight: 700;
+  font-size: 1.08em;
+}
+@media (max-width: 700px) {
+  .interview-wrap { padding: 14px 4vw; }
+}
+
+.grid-item.empty {
+  background-image: url('work/work_placeholder.png');
+  background-size: cover;
+  background-position: center;
+}
+.grid-item.empty img {
+  display: none;
+}
